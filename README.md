@@ -1,1 +1,1 @@
-# This repository contains code examples used in my blogs at https://techwithcloud.com
+## Please visit https://techwithcloud.com for details
