@@ -1,0 +1,59 @@
+{
+    "DeliveryStreamName": "app-log-stream",
+    "DeliveryStreamType": "DirectPut",    
+    "ExtendedS3DestinationConfiguration": {
+        "RoleARN": "arn:aws:iam::XXXXXXXXXXXX:role/service-role/<ROLE_NAME>",
+        "BucketARN": "arn:aws:s3:::<BUCKET_NAME>",
+        "Prefix": "kinesis-transformed/",
+        "ErrorOutputPrefix": "kinesis-error/",
+        "BufferingHints": {
+            "SizeInMBs": 1,
+            "IntervalInSeconds": 60
+        },
+        "CompressionFormat": "GZIP",
+        "EncryptionConfiguration": {
+            "NoEncryptionConfig": "NoEncryption"         
+        },
+        "CloudWatchLoggingOptions": {
+            "Enabled": true,
+            "LogGroupName": "/aws/kinesisfirehose/app-log-stream",
+            "LogStreamName": "S3Delivery"
+        },
+        "ProcessingConfiguration": {
+            "Enabled": true,
+            "Processors": [
+                {
+                    "Type": "Lambda",
+                    "Parameters": [
+                        {
+                            "ParameterName": "LambdaArn",
+                            "ParameterValue": "arn:aws:lambda:ap-south-1:XXXXXXXXXXXX:function:kinesis-transform-record:$LATEST"
+                        },
+                        {
+                            "ParameterName": "NumberOfRetries",
+                            "ParameterValue": "3"
+                        },
+                        {
+                            "ParameterName": "RoleArn",
+                            "ParameterValue": "arn:aws:iam::XXXXXXXXXXXX:role/service-role/<ROLE_NAME>"
+                        },
+                        {
+                            "ParameterName": "BufferSizeInMBs",
+                            "ParameterValue": "1"
+                        },
+                        {
+                            "ParameterName": "BufferIntervalInSeconds",
+                            "ParameterValue": "60"
+                        }
+                    ]
+                }
+            ]
+        }
+    }, 
+    "Tags": [
+        {
+            "Key": "env",
+            "Value": "staging"
+        }
+    ]
+}

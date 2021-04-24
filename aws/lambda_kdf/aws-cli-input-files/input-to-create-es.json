@@ -1,0 +1,45 @@
+{
+    "DomainName": "es-twc",
+    "ElasticsearchVersion": "7.9",
+    "ElasticsearchClusterConfig": {
+            "InstanceType": "m5.large.elasticsearch",
+            "InstanceCount": 1,
+            "DedicatedMasterEnabled": false,
+            "ZoneAwarenessEnabled": false,
+            "WarmEnabled": false
+    },
+    "EBSOptions": {
+        "EBSEnabled": true,
+        "VolumeType": "gp2",
+        "VolumeSize": 10
+    },
+    "AccessPolicies": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"*\"},\"Action\":\"es:*\",\"Resource\":\"arn:aws:es:ap-south-1:XXXXXXXXXXXX:domain/es-twc/*\",\"Condition\":{\"IpAddress\":{\"aws:SourceIp\":\"<YOUR_IP_ADDRESS>/32\"}}}]}",
+    "CognitoOptions": {
+        "Enabled": false
+    },
+    "EncryptionAtRestOptions": {
+        "Enabled": true,
+        "KmsKeyId": "arn:aws:kms:ap-south-1:XXXXXXXXXXXX:key/<KEY_UUID>"
+    },
+    "NodeToNodeEncryptionOptions": {
+        "Enabled": true
+    },
+    "AdvancedOptions": {
+        "rest.action.multi.allow_explicit_index": "true"
+    },
+    "LogPublishingOptions": {
+        "ES_APPLICATION_LOGS": {
+            "CloudWatchLogsLogGroupArn": "arn:aws:logs:ap-south-1:XXXXXXXXXXXX:log-group:/aws/elasticsearch/es-twc:*",
+            "Enabled": true
+        }
+    },
+    "DomainEndpointOptions": {
+        "EnforceHTTPS": true,
+        "TLSSecurityPolicy": "Policy-Min-TLS-1-0-2019-07",
+        "CustomEndpointEnabled": false
+    },
+    "AdvancedSecurityOptions": {
+        "Enabled": false,
+        "InternalUserDatabaseEnabled": false
+    }
+}
